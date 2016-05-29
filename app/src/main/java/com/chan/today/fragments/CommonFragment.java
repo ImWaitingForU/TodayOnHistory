@@ -114,11 +114,11 @@ public class CommonFragment extends Fragment {
 					int newState) {
 				// super.onScrollStateChanged (recyclerView, newState);
 				if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
-					bottomMenu.startSlipInAnimation (0);
+					bottomMenu.startSlipInAnimation(0);
 				} else if (newState == RecyclerView.SCROLL_STATE_SETTLING) {
 
 				} else if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-					bottomMenu.startSlipOutAnimation ();
+					bottomMenu.startSlipOutAnimation();
 				}
 			}
 
@@ -128,6 +128,7 @@ public class CommonFragment extends Fragment {
 			}
 		});
 	}
+
 	/**
 	 * 获取历时的某一天的事件列表,根据标记判断要获取哪种数据
 	 */

@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">今朝</string>
+    <string name="tv1">历史</string>
+    <string name="tv2">丨</string>
+    <string name="tv3">今日</string>
 
 </resources>

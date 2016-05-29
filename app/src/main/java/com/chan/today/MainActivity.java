@@ -1,5 +1,7 @@
 package com.chan.today;
 
+import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -9,8 +11,10 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.DatePicker;
 import android.widget.Toast;
 
+import com.chan.today.acitivity.SpecifyActivity;
 import com.chan.today.adapter.CommonViewPagerAdapter;
 import com.chan.today.fragments.CommonFragment;
 import com.chan.today.utils.BottomMenu;
@@ -18,11 +22,13 @@ import com.chan.today.utils.DataFactory;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
 	private List<CommonFragment> fragmentList;
+	private long exitTime = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,13 +53,19 @@ public class MainActivity extends AppCompatActivity {
 					public void onItemClicked(View view, int position) {
 						switch (position) {
 							case 0 :
-								Toast.makeText (MainActivity.this, "date", Toast.LENGTH_SHORT).show ();
+								showDatePick();
 								break;
 							case 1 :
-								Toast.makeText (MainActivity.this, "share", Toast.LENGTH_SHORT).show ();
+								Toast.makeText(MainActivity.this, "share",
+										Toast.LENGTH_SHORT).show();
 								break;
 							case 2 :
-								Toast.makeText (MainActivity.this, "quit", Toast.LENGTH_SHORT).show ();
+								if (System.currentTimeMillis ()-exitTime>1000){
+									Toast.makeText (MainActivity.this, "再按一次退出", Toast.LENGTH_SHORT).show ();
+									exitTime = System.currentTimeMillis ();
+								}else {
+									System.exit (0);
+								}
 								break;
 							default :
 								break;
@@ -61,6 +73,31 @@ public class MainActivity extends AppCompatActivity {
 					}
 				});
 
+	}
+
+	/**
+	 * 显示日期选择
+	 */
+	private void showDatePick() {
+		Calendar calendar = Calendar.getInstance();
+		Date date = new Date();
+		calendar.setTime(date);
+		int year = calendar.get(Calendar.YEAR);
+		int month = calendar.get(Calendar.MONTH);
+		int day = calendar.get(Calendar.DAY_OF_MONTH);
+		DatePickerDialog datePickerDialog = new DatePickerDialog(this,
+				new DatePickerDialog.OnDateSetListener() {
+					@Override
+					public void onDateSet(DatePicker view, int year,
+							int monthOfYear, int dayOfMonth) {
+						Intent intent = new Intent(MainActivity.this,
+								SpecifyActivity.class);
+						intent.putExtra("month", monthOfYear+1);
+						intent.putExtra("day", dayOfMonth);
+						startActivity(intent);
+					}
+				}, year, month, day);
+		datePickerDialog.show();
 	}
 
 	/**
@@ -89,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
 	private void initMonthAndDay() {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTimeInMillis(System.currentTimeMillis());
-		DataFactory.MONTH = calendar.get(Calendar.MONTH);
+		DataFactory.MONTH = calendar.get(Calendar.MONTH) + 1;
 		DataFactory.DAY = calendar.get(Calendar.DAY_OF_MONTH);
 		Log.d(DataFactory.TAG, DataFactory.MONTH + "month" + DataFactory.DAY
 				+ "day");
