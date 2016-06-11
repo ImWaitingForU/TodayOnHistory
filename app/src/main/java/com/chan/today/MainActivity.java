@@ -58,13 +58,23 @@ public class MainActivity extends AppCompatActivity {
 							case 1 :
 								Toast.makeText(MainActivity.this, "share",
 										Toast.LENGTH_SHORT).show();
+								Intent intent = new Intent();
+								intent.setAction (Intent.ACTION_SEND);
+								intent.setType("text/plain");
+								intent.putExtra (Intent.EXTRA_TEXT,"链接Url");
+								Intent chooser = Intent.createChooser(intent,
+										"分享到");
+								startActivity(chooser);
+
+
 								break;
 							case 2 :
-								if (System.currentTimeMillis ()-exitTime>1000){
-									Toast.makeText (MainActivity.this, "再按一次退出", Toast.LENGTH_SHORT).show ();
-									exitTime = System.currentTimeMillis ();
-								}else {
-									System.exit (0);
+								if (System.currentTimeMillis() - exitTime > 1000) {
+									Toast.makeText(MainActivity.this, "再按一次退出",
+											Toast.LENGTH_SHORT).show();
+									exitTime = System.currentTimeMillis();
+								} else {
+									System.exit(0);
 								}
 								break;
 							default :
@@ -92,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
 							int monthOfYear, int dayOfMonth) {
 						Intent intent = new Intent(MainActivity.this,
 								SpecifyActivity.class);
-						intent.putExtra("month", monthOfYear+1);
+						intent.putExtra("month", monthOfYear + 1);
 						intent.putExtra("day", dayOfMonth);
 						startActivity(intent);
 					}
